@@ -37,7 +37,7 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = getTodoById(id); // 존재하는지 확인
         todo.setTitle(todoDetails.getTitle());
         todo.setDescription(todoDetails.getDescription());
-        todo.setCompleted(todoDetails.getCompleted());
+        todo.setCompleted(todoDetails.isCompleted());
         return todoRepository.save(todo); // 수정 후 저장
     }
 
