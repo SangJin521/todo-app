@@ -2,20 +2,19 @@ package com.example.todo_app.controller;
 
 import com.example.todo_app.entity.Todo;
 import com.example.todo_app.service.TodoService;
+import com.example.todo_app.service.TodoServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/todos")
+@RequestMapping("/todos")
 public class TodoController {
 
-    private final TodoService todoService;
-
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
-    }
+    private final TodoServiceImpl todoService;
 
     @GetMapping
     public List<Todo> getAllTodos() {
