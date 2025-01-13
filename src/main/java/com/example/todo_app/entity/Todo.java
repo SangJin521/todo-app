@@ -12,10 +12,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
-
-    private String description;
+    private String task;
 
     @Column(nullable = false)
     private boolean completed = false;

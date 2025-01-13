@@ -1,8 +1,7 @@
 package com.example.todo_app.controller;
 
 import com.example.todo_app.entity.Todo;
-import com.example.todo_app.service.TodoService;
-import com.example.todo_app.service.TodoServiceImpl;
+import com.example.todo_app.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,33 +13,21 @@ import java.util.List;
 @RequestMapping("/todos")
 public class TodoController {
 
-    private final TodoServiceImpl todoService;
+    private TodoRepository todoRepository;
 
-    @GetMapping
-    public List<Todo> getAllTodos() {
-        return todoService.getAllTodos();
+    // TODO 항목 추가
+    @PostMapping("/add")
+    public Todo addTodo(@RequestParam String task) {
+        Todo todo = new Todo();
+        todo.setTask(task); // todo 저장
+        todo.setCompleted(false); // 새로 추가된 TODO 진행상황은 미진행(false)상태로 지정
+        todoRepository.save(todo); // 데이터베이스에 저장
+        return todo; // 추가된 TODO 항목 반환
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable Long id) {
-        return todoService.getTodoById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Todo createTodo(@RequestBody Todo todo) {
-        return todoService.createTodo(todo);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todoDetails) {
-        return ResponseEntity.ok(todoService.updateTodo(id, todoDetails));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodoById(@PathVariable Long id) {
-        todoService.deleteTodoById(id);
-        return ResponseEntity.noContent().build();
+    // 모든 TODO 항목 조회
+    @GetMapping("/todos")
+    public List<Todo> getTodos() {
+        return todoRepository.findAll(); // JSON 형식으로 반환
     }
 }
