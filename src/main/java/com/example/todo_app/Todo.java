@@ -1,4 +1,4 @@
-package com.example.todo_app.entity;
+package com.example.todo_app;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,8 +13,6 @@ public class Todo {
     private Long id;
 
     private String task;
-
-    @Column(nullable = false)
     private boolean completed = false;
 
 }
